@@ -1,0 +1,13 @@
+# Lateral Movement Detection
+
+# Detects Windows network logons, privilege assignment,
+
+# and process execution activity that may indicate
+
+# attacker movement after initial compromise.
+
+index=main host="LAPTOP-7S5H8RIM"
+(EventCode=4624 OR EventCode=4672 OR EventCode=4688)
+| stats count values(EventCode) as event_codes by Account_Name Source_Network_Address
+| where count > 0
+| sort - count
