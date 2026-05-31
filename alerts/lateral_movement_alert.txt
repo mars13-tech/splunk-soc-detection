@@ -1,0 +1,35 @@
+ALERT NAME: Lateral_Movement_Detection
+
+DESCRIPTION:
+Detects potential attacker movement within the environment through Windows authentication, privilege escalation, and process execution activity.
+
+SEVERITY:
+Critical
+
+TRIGGER CONDITION:
+Detection of Windows Event IDs 4624, 4672, and 4688 associated with suspicious activity.
+
+DATA SOURCE:
+Windows Security Event Logs
+
+WINDOWS EVENT IDS:
+
+4624 - Successful Logon
+4672 - Special Privileges Assigned
+4688 - Process Creation
+
+DETECTION QUERY:
+
+index=main host="LAPTOP-7S5H8RIM"
+(EventCode=4624 OR EventCode=4672 OR EventCode=4688)
+| stats count values(EventCode) as event_codes by Account_Name Source_Network_Address
+
+RECOMMENDED RESPONSE:
+
+1. Identify affected accounts.
+2. Review source network addresses.
+3. Investigate privilege escalation events.
+4. Analyze executed processes.
+5. Determine attack scope.
+6. Contain compromised systems.
+7. Perform incident response procedures.
