@@ -1,0 +1,9 @@
+# SSH Brute Force Detection
+
+# Detects source IPs generating excessive failed SSH login attempts.
+
+index=main host="mars-VirtualBox" "Failed password"
+| rex "from (?<src>\d+.\d+.\d+.\d+)"
+| stats count as failed_attempts by src
+| where failed_attempts > 10
+| sort - failed_attempts
